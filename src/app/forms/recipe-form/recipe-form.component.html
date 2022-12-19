@@ -1,0 +1,167 @@
+<div class="d-flex justify-content-center">
+  <form [formGroup]="recipeForm" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="title">Receptų registracija</label>
+      <input
+        type="text"
+        class="form-control"
+        id="title"
+        formControlName="title"
+      />
+      <div
+        *ngIf="
+          recipeForm.controls.title.invalid && recipeForm.controls.title.touched
+        "
+        class="invalid-feedback"
+      >
+        Pavadinimas būtinas ir turi būti trumpesnis nei 30 simbolių.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="duration">Trukmė (minutėmis, turi būti 5 kartotinis)</label>
+      <input
+        type="number"
+        class="form-control"
+        id="duration"
+        formControlName="duration"
+      />
+      <div
+        *ngIf="
+          recipeForm.controls.duration.invalid &&
+          recipeForm.controls.duration.touched
+        "
+        class="invalid-feedback"
+      >
+        Trukmė privaloma ir turi būti 5 kartotinė.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        formControlName="description"
+      ></textarea>
+      <div
+        *ngIf="
+          recipeForm.controls.description.invalid &&
+          recipeForm.controls.description.touched
+        "
+        class="invalid-feedback"
+      >
+        Būtinas aprašymas.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="photo">Nuotraukos URL</label>
+      <input
+        type="text"
+        class="form-control"
+        id="photo"
+        formControlName="photo"
+      />
+      <div
+        *ngIf="
+          recipeForm.controls.photo.invalid && recipeForm.controls.photo.touched
+        "
+        class="invalid-feedback"
+      >
+        Netinkamas nuotraukos URL.
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="calories">Kalorijos</label>
+      <input
+        type="number"
+        class="form-control"
+        id="calories"
+        formControlName="calories"
+      />
+    </div>
+    <div class="form-group mt-3">
+      <label for="allergens"><b>Alergenai</b></label>
+      <div formArrayName="allergens">
+        <div *ngFor="let allergen of allergens.controls; index as i">
+          <div class="form-group pb-1">
+            <input type="text" class="form-control" [formControlName]="i" />
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-secondary me-2"
+          (click)="addAllergen()"
+        >
+          Pridėti alergeną
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="removeAllergen()"
+        >
+          Pašalinkite alergeną
+        </button>
+      </div>
+    </div>
+    <div class="form-group mt-3">
+      <label><b>Ingridientai</b></label>
+      <div formArrayName="ingredients">
+        <div
+          *ngFor="let ingredient of ingredients.controls; index as i"
+          [formGroupName]="i"
+        >
+          <div class="form-row">
+            <div class="form-group pb-1">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Pavadinimas"
+                formControlName="name"
+              />
+            </div>
+            <div class="form-group pb-1">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Kiekis"
+                formControlName="quantity"
+              />
+            </div>
+            <div class="form-group pb-1">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Vienetas"
+                formControlName="unit"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-secondary me-2"
+          (click)="addIngredient()"
+        >
+          Pridėti ingredientą
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="removeIngredient()"
+        >
+          Remove Ingredient
+        </button>
+      </div>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary mt-4"
+      [disabled]="recipeForm.invalid"
+    >
+      Pateikti
+    </button>
+  </form>
+</div>
